@@ -4,7 +4,7 @@ A dead-simple library for implementing a request-response server in Matlab.
 
 ## Usage example
 
-1. Write a function to implement the server.
+Write a function to implement the server.
 
 ```matlab
 function response = my_server(request)
@@ -13,18 +13,24 @@ function response = my_server(request)
 end
 ```
 
-2. Start the server, passing a callback function.
+Start the server, passing a callback function.
 
-    >> netsrv.start_server(@my_server, 8148);
+```
+>> netsrv.start_server(@my_server, 8148);
+```
 
-3. On another machine, send requests to the server.
+On another machine, send requests to the server.
 
-    >> netsrv.start_client('localhost', 8148)
-    Opening ZMQ socket tcp://localhost:8148
+```
+>> netsrv.start_client('localhost', 8148)
+Opening ZMQ socket tcp://localhost:8148
+```
 
-    >> netsrv.make_request('Dave)
-    ans =
-        message: 'Hello Dave'
+```
+>> netsrv.make_request('Dave)
+ans =
+    message: 'Hello Dave'
+```
 
 ## Features
 
