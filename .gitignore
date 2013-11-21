@@ -1,1 +1,3 @@
 private/*.mex*
+private/*.dll
+private/*.lib
