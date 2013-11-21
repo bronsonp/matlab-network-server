@@ -37,7 +37,7 @@ ans =
 * Can send arbitrary Matlab objects.
 * Uses the high performance [ZeroMQ](http://zeromq.org/) library for messaging. The server can handle many simultaneous client connections.
 
-## Installing
+## Installing (Linux)
 
 Clone the repository into a directory beginning with a `+` symbol to create a Matlab package. The suggested name is `+netsrv`
 
@@ -51,6 +51,14 @@ Compile the C++ code.
 
     $ cd +netsrv/private
     $ make
+
+If the build fails, you need to [set up the MEX compiler](http://www.mathworks.com.au/help/matlab/matlab_external/building-mex-files.html).
+
+## Installing (Windows)
+
+1. Clone the repository into a directory beginning with a `+` symbol to create a Matlab package.
+2. Download the [installer for ZeroMQ version 3](http://zeromq.org/distro:microsoft-windows).
+3. Run the `compile_for_windows.m` script in the `private` subdirectory.
 
 If the build fails, you need to [set up the MEX compiler](http://www.mathworks.com.au/help/matlab/matlab_external/building-mex-files.html).
 
