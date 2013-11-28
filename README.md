@@ -37,11 +37,23 @@ ans =
 * Can send arbitrary Matlab objects.
 * Uses the high performance [ZeroMQ](http://zeromq.org/) library for messaging. The server can handle many simultaneous client connections.
 
-## Installing (Linux)
+## Installing
 
-Clone the repository into a directory beginning with a `+` symbol to create a Matlab package. The suggested name is `+netsrv`
+The recommended way to install is to add this as a git subtree to your existing project.
+
+    $ git remote add -f matlab-network-server https://github.com/bronsonp/matlab-network-server.git
+    $ git subtree add --prefix +netsrv matlab-network-server master --squash
+
+At a later time, if there are updates released that you wish to add to your project:
+
+    $ git fetch matlab-network-server
+    $ git subtree pull --prefix +netsrv matlab-network-server master --squash
+
+If you do not intend to use git subtree, you can simply clone the repository:
 
     $ git clone https://github.com/bronsonp/matlab-network-server.git +netsrv
+
+### Compiling (Linux)
 
 Install the ZeroMQ library.
 
@@ -54,11 +66,10 @@ Compile the C++ code.
 
 If the build fails, you need to [set up the MEX compiler](http://www.mathworks.com.au/help/matlab/matlab_external/building-mex-files.html).
 
-## Installing (Windows)
+### Compiling (Windows)
 
-1. Clone the repository into a directory beginning with a `+` symbol to create a Matlab package.
-2. Download the [installer for ZeroMQ version 3](http://zeromq.org/distro:microsoft-windows).
-3. Run the `compile_for_windows.m` script in the `private` subdirectory.
+1. Download the [installer for ZeroMQ version 3](http://zeromq.org/distro:microsoft-windows).
+2. Run the `compile_for_windows.m` script in the `private` subdirectory.
 
 If the build fails, you need to [set up the MEX compiler](http://www.mathworks.com.au/help/matlab/matlab_external/building-mex-files.html).
 
