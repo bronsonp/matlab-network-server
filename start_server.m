@@ -1,9 +1,10 @@
 function start_server(request_callback, port)
 % START_SERVER Start the network server.
-% START_SERVER(request_callback) starts a server on TCP port
-% 8148. Requests are handled by the supplied callback function.
-% START_SERVER(request_callback, port) starts a server on the
-% specified port.
+%
+% START_SERVER(request_callback) starts a server on TCP port 8148.
+% Requests are handled by the supplied callback function.
+%
+% START_SERVER(request_callback, port) starts a server on the specified port.
 
     if nargin < 2
         port = 8148;
@@ -14,7 +15,7 @@ function start_server(request_callback, port)
                        'start_server(request_callback, port)']));
     end
 
-    fprintf('ZMQ: Starting server on port %i ...\n', port);
+    fprintf('Starting server on port %i ...\n', port);
 
     % Prepare the config structure
     config = struct();
@@ -28,9 +29,17 @@ function start_server(request_callback, port)
     SERVER_SEND = uint32(2);
 
     % Call the mex function that wraps ZMQ
-    [success, ~] = server_communicate(SERVER_INIT, config);
+    try
+        [success, ~] = server_communicate(SERVER_INIT, config);
+    catch E
+        if strcmp(E.identifier, 'MATLAB:UndefinedFunction')
+            error('You need to compile the MEX files in +netsrv/private');
+        else
+            rethrow(E);
+        end
+    end
     if ~success
-        error('zmq:init_failed', 'ZMQ: Failed to initialise server.');
+        error('netsrv:init_failed', 'Netsrv: Failed to initialise server.');
     end
 
     while true

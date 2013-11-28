@@ -1,8 +1,9 @@
 function start_client(server, port)
-% ZMQ.START_CLIENT open a connection to a ZMQ server.
-% START_CLIENT(server) connects to the specified server.
-% START_CLIENT(server, port) connects to the specified server on
-% the requested port
+% START_CLIENT open a connection to a ZMQ server.
+%
+% START_CLIENT(server) connects to the specified server on port 8148.
+%
+% START_CLIENT(server, port) connects to the specified server on the requested port
 
     if nargin < 2
         port = 8148;
@@ -16,7 +17,7 @@ function start_client(server, port)
     % Prepare the config structure
     config = struct();
     config.endpoint = sprintf('tcp://%s:%i', server, port);
-    config.timeout = uint32(30000); % milliseconds to wait before
+    config.timeout = uint32(10000); % milliseconds to wait before
                                     % returning to MATLAB in case
                                     % of communication failure
 
@@ -25,9 +26,17 @@ function start_client(server, port)
     CLIENT_REQUEST = uint32(1);
 
     % Call the mex function that wraps ZMQ
-    [success, ~] = client_communicate(CLIENT_INIT, config);
+    try
+        [success, ~] = client_communicate(CLIENT_INIT, config);
+    catch E
+        if strcmp(E.identifier, 'MATLAB:UndefinedFunction')
+            error('You need to compile the MEX files in +netsrv/private');
+        else
+            rethrow(E);
+        end
+    end
     if ~success
-        error('zmq:init_failed', 'ZMQ: Failed to initialise client.');
+        error('netsrv:init_failed', 'Netsrv: Failed to initialise client.');
     end
 
 end

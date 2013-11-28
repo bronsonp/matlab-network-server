@@ -1,5 +1,5 @@
 function response = make_request(request)
-% ZMQ.MAKE_REQUEST(request) sends the supplied request data to the
+% MAKE_REQUEST(request) sends the supplied request data to the
 % previously opened client socket.
 
     if nargin < 1
@@ -17,7 +17,7 @@ function response = make_request(request)
     % Send the message
     [success, response_s] = client_communicate(CLIENT_REQUEST, request_s);
     if ~success
-        error('zmq:failed_to_communicate', 'ZMQ: Failed to send message to server.');
+        error('netsrv:failed_to_communicate', 'Netsrv: Failed to send message to server.');
     end
 
     % Deserialise
