@@ -149,7 +149,7 @@ end
 
 % Cell array of heterogenous contents
 function m = serialize_cell_heterogenous(v)
-    contents = cellfun(@lib.serialize.hlp_serialize,v,'UniformOutput',false);
+    contents = cellfun(@hlp_serialize,v,'UniformOutput',false);
     m = [uint8(33); ndims(v); typecast(uint32(size(v)),'uint8').'; vertcat(contents{:})];
 end
 
@@ -214,7 +214,7 @@ function m = serialize_cell(v)
                 m = [uint8(37); class2tag(class(v{1})); ndims(v); typecast(uint32(size(v)),'uint8').'];
             elseif length(unique(cellfun(@class,v(:),'UniformOutput',false))) == 1
                 % of uniform class with prototype
-                m = [uint8(38); lib.serialize.hlp_serialize(class(v{1})); ndims(v); typecast(uint32(size(v)),'uint8').'];
+                m = [uint8(38); hlp_serialize(class(v{1})); ndims(v); typecast(uint32(size(v)),'uint8').'];
             else
                 % of arbitrary classes
                 m = serialize_cell_heterogenous(v);
@@ -243,7 +243,7 @@ function m = serialize_object(v)
             conts = saveobj(v(idx));
             if isstruct(conts) || iscell(conts) || isnumeric(conts) || ischar(conts) || islogical(conts) || isa(conts,'function_handle')
                 % contents is something that we can readily serialize
-                conts = lib.serialize.hlp_serialize(conts);
+                conts = hlp_serialize(conts);
             else
                 % contents is still an object: turn into a struct now
                 conts = serialize_struct(struct(conts));
