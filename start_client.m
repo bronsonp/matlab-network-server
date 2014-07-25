@@ -1,10 +1,18 @@
-function start_client(server, port)
+function start_client(server, port, timeout)
 % START_CLIENT open a connection to a ZMQ server.
 %
 % START_CLIENT(server) connects to the specified server on port 8148.
 %
-% START_CLIENT(server, port) connects to the specified server on the requested port
+% START_CLIENT(server, port) connects to the specified server on the requested port.
+%
+% START_CLIENT(..., timeout) additionally specifies the timeout in milliseconds
+% after which an error will be raised in the case of communication failure.
+%
 
+    if nargin < 3
+        timeout = 10000; % milliseconds to wait before returning to MATLAB
+                         % in the case of communication failure.
+    end
     if nargin < 2
         port = 8148;
     end
@@ -17,9 +25,7 @@ function start_client(server, port)
     % Prepare the config structure
     config = struct();
     config.endpoint = sprintf('tcp://%s:%i', server, port);
-    config.timeout = uint32(10000); % milliseconds to wait before
-                                    % returning to MATLAB in case
-                                    % of communication failure
+    config.timeout = uint32(timeout); 
 
     % Constants
     CLIENT_INIT = uint32(0);
