@@ -12,7 +12,7 @@ function response = make_request(request)
     CLIENT_REQUEST = uint32(1);
 
     % Serialise the message
-    request_s = hlp_serialize(request);
+    request_s = getByteStreamFromArray(request);
 
     % Send the message
     [success, response_s] = client_communicate(CLIENT_REQUEST, request_s);
@@ -21,6 +21,6 @@ function response = make_request(request)
     end
 
     % Deserialise
-    response = hlp_deserialize(response_s);
+    response = getArrayFromByteStream(response_s);
 
 end

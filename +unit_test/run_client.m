@@ -9,6 +9,15 @@ try
     disp(netsrv.make_request(request));
     disp(netsrv.make_request(request));
     disp(netsrv.make_request(request));
+    
+    obj = netsrv.unit_test.HardToSerialise();
+    request.data = obj;
+    response = netsrv.make_request(request);
+    if response.number == obj.number
+        disp('=====>> class serialisation test passed! <<=====');
+    else
+        disp('=====>> class serialisation test FAILED! <<=====');
+    end
 
     request = struct();
     request.msg = 'quit';

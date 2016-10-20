@@ -50,13 +50,13 @@ function start_server(request_callback, port)
         % Did we receive a message?
         if have_msg
             % Deserialise
-            msg = hlp_deserialize(msg_serialised);
+            msg = getArrayFromByteStream(msg_serialised);
 
             % Run the callback
             response = request_callback(msg);
 
             % Serialise
-            response_serialised = hlp_serialize(response);
+            response_serialised = getByteStreamFromArray(response);
 
             % Send the response
             [~, ~] = server_communicate(SERVER_SEND, response_serialised);

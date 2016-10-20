@@ -4,7 +4,7 @@
 this_dir = fileparts(mfilename('fullpath'));
 cd(this_dir);
 
-% Download ZeroMQ from http://zeromq.org/distro:microsoft-windows and
+% Download ZeroMQ 3.2.4 from http://zeromq.org/distro:microsoft-windows and
 % install it
 ZMQ_DIR='C:\Program Files\ZeroMQ 3.2.4';
 
