@@ -35,7 +35,7 @@ ans =
 ## Features
 
 * Can send arbitrary Matlab objects.
-* Uses the high performance [ZeroMQ](http://zeromq.org/) library for messaging. The server can handle many simultaneous client connections. Note however that the callback function will not be executed multiple times in parallel, so it should return quickly.
+* Uses the high performance [ZeroMQ](http://zeromq.org/) library for messaging. The server can handle many simultaneous client connections. Note however that Matlab's event loop is single threaded. The callback function will not be executed multiple times in parallel, so it should return quickly.
 
 ## Installing
 
@@ -57,7 +57,7 @@ If you do not intend to use git subtree, you can simply clone the repository:
 
 ### Compiling (Linux)
 
-Install the ZeroMQ library.
+Install the ZeroMQ library (version 4.2.0 or later)
 
     $ sudo apt-get install libzmq3-dev
 
@@ -70,10 +70,9 @@ If the build fails, you need to [set up the MEX compiler](http://www.mathworks.c
 
 ### Compiling (Windows)
 
-1. Download the [installer for ZeroMQ version 3.2.4](http://zeromq.org/distro:microsoft-windows).
-2. Run the `compile_for_windows.m` script in the `private` subdirectory.
+1. Run the `compile_for_windows.m` script in the `private` subdirectory.
 
-If the build fails, you need to [set up the MEX compiler](http://www.mathworks.com.au/help/matlab/matlab_external/building-mex-files.html).
+A precompiled copy of ZeroMQ 4.2.0 is included in this repository. If you have issues, you might need to compile ZeroMQ from source yourself.
 
 ## A note on serialisation
 

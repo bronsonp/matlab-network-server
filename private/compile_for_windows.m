@@ -4,19 +4,20 @@
 this_dir = fileparts(mfilename('fullpath'));
 cd(this_dir);
 
-% Download ZeroMQ 3.2.4 from http://zeromq.org/distro:microsoft-windows and
-% install it
-ZMQ_DIR='C:\Program Files\ZeroMQ 3.2.4';
-
-% Copy DLL locally
-copyfile(sprintf('%s\\bin\\libzmq-v90-mt-3_2_4.dll', ZMQ_DIR), this_dir);
-copyfile(sprintf('%s\\lib\\libzmq-v90-mt-3_2_4.lib', ZMQ_DIR), this_dir);
+% Check for the required files
+requirements = {'zmq.h', 'libzmq.lib', 'libzmq.exp', 'libzmq.dll'};
+libpath = 'zeromq_windows_x64';
+for r = requirements'
+    if 0 == exist(fullfile(libpath, r{1}), 'file')
+        error('Please download ZeroMQ 4.2.0 or later and place the following files in the %s folder: %s', libpath, strjoin(requirements, ', '));
+    end
+end
 
 % Compile
-mexargs = {...
-    sprintf('-I%s\\include', ZMQ_DIR), ...
-    sprintf('-L%s\\lib', ZMQ_DIR), ...
-    '-lzmq-v90-mt-3_2_4'};
+mexargs = {'-largeArrayDims', ['-I' libpath], ['-L' libpath], '-lzmq'};
+
+% Copy the DLL to the root directory so it can be found by the mex file
+copyfile(fullfile(libpath, 'libzmq.dll'), this_dir);
 
 mex( mexargs{:}, 'client_communicate.cpp' );
 mex( mexargs{:}, 'server_communicate.cpp' );

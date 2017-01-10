@@ -1,5 +1,5 @@
 MEXEXT=mexa64 # change this to the output of the Matlab function mexext on your system
-MEX=mex -lzmq -largeArrayDims
+MEX=mex -largeArrayDims ${CFLAGS} -lzmq ${LDFLAGS}
 
 all: server_communicate.$(MEXEXT) client_communicate.$(MEXEXT)
 
