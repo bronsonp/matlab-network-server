@@ -162,14 +162,19 @@ static void close_socket()
     printf("client: closing ZMQ socket\n");
 
     if (endpoint != NULL) {
-        mxFree(endpoint);
+        delete[] endpoint;
+        endpoint = NULL;
     }
 
-    zmq_close(zsocket);
-    zsocket = NULL;
+    if (zsocket != NULL) {
+        zmq_close(zsocket);
+        zsocket = NULL;
+    }
 
-    zmq_ctx_destroy(context);
-    context = NULL;
+    if (context != NULL) {
+        zmq_ctx_destroy(context);
+        context = NULL;
+    }
 }
 
 ////////////////////////////////////////////////////////////

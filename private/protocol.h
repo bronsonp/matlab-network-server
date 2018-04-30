@@ -40,15 +40,14 @@ type getConfigField(const mxArray *structure, const char *fieldname, const char 
 	}
 
 	// Get the value
-	type *value = (type *)mxGetData(field);
-
-	if (value == NULL) {
+	type *pvalue = (type *)mxGetData(field);
+	if (pvalue == NULL) {
 		mexErrMsgIdAndTxt( "MATLAB:zmq_communicate:invalidInputs",
 		                   "Failed to retrieve data for %s", fieldname);
 	}
 
-	// Return it
-	return *value;
+	// Return iy
+	return *pvalue;
 }
 
 ////////////////////////////////////////////////////////////
@@ -78,12 +77,15 @@ char *getConfigString(const mxArray *structure, const char *fieldname)
 	}
 
 	// Get the value
-	char *value = mxArrayToString(field);
-
-	if (value == NULL) {
+	char *mxString = mxArrayToString(field);
+	if (mxString == NULL) {
 		mexErrMsgIdAndTxt( "MATLAB:zmq_communicate:invalidInputs",
 		                   "Failed to retrieve data for %s", fieldname);
 	}
+
+	// Copy out of Matlab's memory (in case the underlying data is freed by Matlab)
+	char *value = new char [1+strlen(mxString)];
+	strcpy(value, mxString);
 
 	// Return it
 	return value;

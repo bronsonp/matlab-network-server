@@ -159,11 +159,15 @@ static void close_socket()
 {
     printf("server: closing ZMQ socket\n");
 
-    zmq_close(zsocket);
-    zsocket = NULL;
+    if (zsocket != NULL) {
+        zmq_close(zsocket);
+        zsocket = NULL;
+    }
 
-    zmq_ctx_destroy(context);
-    context = NULL;
+    if (context != NULL) {
+        zmq_ctx_destroy(context);
+        context = NULL;
+    }
 }
 
 ////////////////////////////////////////////////////////////
