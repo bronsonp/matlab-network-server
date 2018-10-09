@@ -94,6 +94,11 @@ bool server_recv(const mxArray *config, mxArray *msg_array)
             // Wait for a message to be available.
             int nevents = zmq_poll(poll_items, 1, socket_timeout);
             if (nevents == -1) {
+                if (errno == EINTR) {
+                    // System call was interrupted. Treat this like a timeout.
+                    zmq_msg_close(&zmsg);
+                    return false;
+                }
                 int poll_errno = errno;
                 zmq_msg_close(&zmsg);
                 mexErrMsgIdAndTxt( "MATLAB:zmq_communicate:error",
